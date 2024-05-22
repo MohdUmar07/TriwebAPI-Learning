@@ -1,2 +1,2 @@
 # TriwebAPI-Learning
-Six Months Learning Program
+Six Months MERN Stack Learning Program.
