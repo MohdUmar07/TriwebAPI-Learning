@@ -1,0 +1,35 @@
+body {
+    background-color: #e0eefe;
+    font-family: sans-serif;
+    }
+    
+    .data-table {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    }
+    
+    .data-table th,
+    .data-table td {
+    font-size: 1.2rem;
+    padding: 1rem;
+    text-align: left;
+    color: #333;
+    }
+    
+    .data-table th {
+    background-color: #e6f7fb;
+    font-weight: bold;
+    color: #333;
+    }
+    
+    h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1rem;
+    background-color: #67a5eb;
+    padding: 1rem;
+    color: #030303;
+    }
