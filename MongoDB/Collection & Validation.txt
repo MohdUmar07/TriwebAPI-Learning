@@ -1,0 +1,47 @@
+
+db.createCollection("products",{ validator:{
+	$jasonSchema:{
+		bsonType: 'object',
+		required:['title', 'pname', 'owner', 'comments'],
+		properties:{
+			title:{
+				bsonType:'string',
+				description:'Title must be string'
+			},
+			pname:{
+				bsonType:'string',
+				description:'pname must be string'
+			},
+			owner:{
+				bsonType:'objectId',
+				description:'id of customer'
+			},
+			comments:{
+				bsonType:'string',
+				description:'comments must be string'
+			}
+		}
+		
+	}
+}
+}) 
+
+
+
+-------------------------------------------------------------------
+
+-> Ordered Insertion -- 
+
+db.products.insertMany([{title:"my product5",pname:"product005",owner:ObjectId("64f4942f203d699954729d89"),comments:"hi hello"},
+{pname:"product006",owner:ObjectId("64f4942f203d699954729d89"),comments:"hi hello"},
+{title:"my product7",pname:"product007",owner:ObjectId("64f4942f203d699954729d89"),comments:"hi hello"}])
+
+
+-> Unordered Insertion -- 
+
+
+
+db.products.insertMany([{title:"my product6",pname:"product006",owner:ObjectId("64f4942f203d699954729d89"),comments:"hi hello"},
+{pname:"product007",owner:ObjectId("64f4942f203d699954729d89"),comments:"hi hello"},
+{title:"my product8",pname:"product008",owner:ObjectId("64f4942f203d699954729d89"),comments:"hi hello"}],
+{ordered: false})
