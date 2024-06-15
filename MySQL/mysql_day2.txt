@@ -1,0 +1,160 @@
+-> create database workshop2
+->use workshop2
+
+->
+create TABLE teachers( 
+id int NOT null AUTO_INCREMENT PRIMARY KEY,
+ teacher_name varchar(255) NOT null,
+ mobile varchar(100) NOT null,
+ salary int
+ );
+
+-> CREATE TABLE classes( 
+id int NOT null AUTO_INCREMENT, 
+class_name varchar(100) NOT null,
+teacher_id int NOT null, 
+PRIMARY KEY(id),
+FOREIGN KEY(teacher_id) REFERENCES teachers(id) 
+);
+
+->
+CREATE TABLE students( 
+id int NOT null AUTO_INCREMENT, 
+student_name varchar(100) NOT null,
+mobile varchar(20) default 0,
+class_id int NOT null, 
+PRIMARY KEY(id),
+FOREIGN KEY(class_id) REFERENCES classes(id) 
+);
+
+
+--> - MySQL INSERT INTO Statement
+insert into teachers(teacher_name, mobile, salary ) values('Ajay','1234','5000');
+--> - MySQL INSERT INTO Statement - Multiple records
+insert into teachers(teacher_name, mobile, salary ) values('Vijay','1235','5000'),('Azar','1236','4000');
+
+insert into teachers values(4,'Amar','1237',10000);
+
+insert into classes(class_name, teacher_id) values('Class 6',1);
+
+insert into classes(class_name, teacher_id) values('Class 7',1),('Class 8',2),('Class 9',3),('Class 10',4);
+
+insert into classes(id,class_name, teacher_id) values(1,'Class 5',3);
+
+insert into students (student_name, mobile, class_id) values('Alex','9876',5),('Genie','9875',5),('Arya','9874',5),('Adi','8888',6),('Bata','8887',6),('Vani','7777',1),('Joona','6666',2),('Peter','5555',3),('Durgesh','4444',3),('Sayyad','3333',4),('Afzal','2222',4);
+
+
+
+- MySQL WHERE Clause
+update classes set class_name = 'Class 5' where id = 1;
+select * from students where class_id = 5;
+update students set mobile = '2222' where id=12;
+
+
+- MySQL OR Clause
+select * from students where class_id = 4 or class_id = 5;
+
+- MySQL AND Clause
+select * from students where mobile='2222' and class_id=5;
+
+-> Get all the records of students of class 1,2,3,4,5 but not 6;
+
+select * from students where class_id=1 or class_id=2 or class_id=3 or class_id=4 or class_id= 5;
+- With NOT Clause
+select * from students where class_id <> 6  ;
+
+- MySQL ORDER BY Keyword
+select * from students where class_id <> 6 order by class_id;
+select * from students where class_id <> 6 order by class_id desc; (for descending order ascending ordr is by default)
+
+- MySQL Limit Clause -
+select * from students where class_id = 5 limit 2;
+
+- MySQL MIN() & MAX() Functions -
+select min(salary) from teachers;
+select max(salary) from teachers;
+
+
+- MySQL COUNT(), AVG() & SUM() Functions -
+select count(id) as NumbersOfTeacher from teachers ;
+select avg(salary) as AvgSalary from teachers ;
+select sum(salary) as TotalSalary from teachers ; 
+
+
+- MySQL LIKE Operator
+select * from students where student_name like 'Af%'
+
+- MySQL IN Operator
+
+-> Get all the records of numbers whose id is 1,5 or 6
+select * from students where class_id in (1,5,6);
+
+-> Get second  higest salary
+select max(salary) from teachers where salary not in (select max(salary) from teachers) ;
+
+-> Third higest salary
+select max(salary) from teachers where salary not in (select max(salary) from teachers) 
+and salary not in (select max(salary) from teachers where salary not in (select max(salary) from teachers) );
+
+- MySQL BETWEEN Operator
+select * from teachers where salary between 5000 and 11000;
+
+
+- MySQL JOIN
+
+-> INNER JOIN
+-> CROSS JOIN
+-> SELF JOIN
+-> RIGHT JOIN
+-> LEFT JOIN
+select cl.class_name, tr.teacher_name as class_teacher 
+from classes cl
+left join teachers tr on cl.teacher_id = tr.id;
+
+
+- MySQL UNION
+
+select teacher_name from teachers;
+union
+select student_name from students;
+
+
+- MySQL GROUP BY Statement
+select class_id,count(*) as number_of_students from students
+group by class_id ;
+
+
+
+- MySQL ORDER BY Statement
+select class_id,count(*) as number_of_students from students
+group by class_id 
+order by number_of_students desc;
+
+
+- MySQL HAVING Clause
+select class_id,count(*) as number_of_students from students
+group by class_id 
+having number_of_students > 1;
+
+
+
+
+
+- MySQL INSERT INTO SELECT Statement
+
+
+-----------------------
+
+create TABLE teachers_dup( 
+id int NOT null AUTO_INCREMENT PRIMARY KEY,
+ teacher_name varchar(255) NOT null,
+ mobile varchar(100) NOT null,
+ salary int
+ );
+
+
+
+
+insert into teachers_dup(id,teacher_name,mobile,salary) 
+select id,teacher_name,mobile,salary from teachers 
+where id = 3

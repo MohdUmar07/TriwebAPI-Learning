@@ -1,0 +1,120 @@
+CREATE DATABASE mysql_workshop_db;
+use mysql_workshop_db;
+
+CREATE TABLE students(
+ id int(11) NOT null PRIMARY KEY,
+ student_name varchar(255) NOT null,
+ class int(11) DEFAULT 6, 
+ mobile varchar(100) );
+
+create TABLE teacher( 
+id int(11) NOT null AUTO_INCREMENT PRIMARY KEY,
+ teacher_name varchar(255) NOT null,
+ mobile varchar(100) NOT null );
+
+CREATE TABLE classes( 
+id int(11) NOT null AUTO_INCREMENT, class_name varchar(100) NOT null,
+ teacher_id int(11) NOT null, PRIMARY KEY(id),
+ FOREIGN KEY(teacher_id) REFERENCES teacher(id) );
+ 
+ - Change column name
+ 
+ ALTER TABLE students
+CHANGE class class_id int(11) NOT null;
+
+- alter and add forigen key 
+ALTER table students ADD FOREIGN KEY (class_id) REFERENCES classes(id);
+
+- add timestamp
+ALTER TABLE students ADD created_on timestamp DEFAULT CURRENT_TIMESTAMP;
+
+- delete a table
+DROP TABLE teacher123;
+
+
+<<<---------------------------------------------------------------------------->>>
+
+CRUD
+
+C- Create
+INSERT INTO teacher(mobile, teacher_name) VALUES('1111', 't1');
+
+output: 1 row inserted.
+		Inserted row id: 1
+		
+
+R- Retrive
+SELECT * FROM `teacher`;
+
+		
+U- Update
+SELECT * FROM `teacher`;		
+
+D- Delete
+SELECT * FROM `teacher`;
+
+
+
+-------
+INSERT
+INSERT into classes(class_name,teacher_id) VALUES('class one','1');
+INSERT into classes (id,class_name,teacher_id) VALUES(2,'class One',2);
+INSERT into students(id,student_name,class_id,mobile) VALUES (1,'Anas',2,1122);
+
+
+Update
+UPDATE `classes` SET `class_name` = 'Class Four' WHERE `classes`.`id` = 4;
+
+
+Retrive
+
+SELECT * from students;
+
+SELECT * FROM `students` WHERE class_id=3;
+
+SELECT * FROM `students` WHERE class_id=2 and mobile=1155;
+
+SELECT * FROM `students` WHERE class_id=2 and mobile=1155;
+
+SELECT * FROM `students` WHERE class_id IN (2,3);
+
+SELECT student_name as NameOfStudent,mobile as MobileNumber FROM `students` WHERE id = 1;
+
+SELECT st.*
+FROM students st 
+WHERE id = 2;
+
+SELECT st.student_name
+FROM students st 
+WHERE st.id = 2;
+
+SELECT st.student_name, cl.class_name 
+FROM students st 
+INNER JOIN classes cl ON st.class_id = cl.id;
+
+SELECT st.student_name, cl.class_name as ClassTeacher
+FROM students st 
+INNER JOIN classes cl ON st.class_id = cl.id
+INNER JOIN teacher t on cl.teacher_id = t.id;
+
+SELECT st.student_name, cl.class_name, t.teacher_name as ClassTeacher 
+FROM students st 
+INNER JOIN classes cl ON st.class_id = cl.id
+INNER JOIN teacher t on cl.teacher_id = t.id;
+
+
+- select all
+- select with where
+- select with AND
+- select with OR
+- IN query
+- select costum fealds
+- How to change name column while fetching the data- Alias
+
+Delete -> It can not delete the records in table, it cannot reset the auto increament value.
+
+
+
+Truncate - TRUNCATE TABLE classes; : it reset the table. 
+
+-> Cannot truncate a table referenced in a foreign key constraint
