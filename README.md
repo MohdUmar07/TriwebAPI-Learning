@@ -11,10 +11,11 @@
 1. [Overview](#overview)
 2. [Topics](#topics)
 3. [Projects](#projects)
-4. [Learnings](#learnings)
-5. [Acknowledgements](#acknowledgements)
-6. [Authors](#authors)
-7. [Get in Touch](#get-in-touch)
+4. [Repository Folder Structure](#repository-folder-structure)
+5. [Learnings](#learnings)
+6. [Acknowledgements](#acknowledgements)
+7. [Authors](#authors)
+8. [Get in Touch](#get-in-touch)
 
 ## Overview
 Welcome to the TriwebAPI Learning repository! This repository documents my journey and learning experiences with the MERN stack development, particularly during my internship at TriwebAPI.
