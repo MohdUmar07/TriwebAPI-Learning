@@ -1,0 +1,27 @@
+-. Setup project - Start
+-. yarn ------- Done
+-. NodeJS --- Start
+-. express --- Start
+-. nodemon -- Start -- done
+
+-. multi layer - Controllers, Models, Routers
+-. configuration - enviroment variable -> local server
+
+
+-. TypeScript
+    - install Typescript
+    - tsc -> type script comppiler
+    - move all source code(.js) files to src or create your files here
+    - extension is .ts
+    - definations for node, express and other libreries
+        -- npm install --save-dev @type/node
+        -- yarn add --dev @type@node
+        
+    - moduleResolution = node10
+
+-. Tanspile, taranspiler, transcompiler
+
+
+-. Argument of type 'number' is not assignable to parameter of type 'string'.
+
+
