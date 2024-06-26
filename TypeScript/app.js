@@ -1,4 +1,5 @@
 const express = require('express');
+const userRoute = require('./routes/user');
 
 
 const app = express();
@@ -8,10 +9,7 @@ app.get('/',(req,res)=>{
     res.send("Hello from server");
 });
 
-app.get('/hello',(req,res)=>{
-
-    res.send("I am the devloper");
-});
+app.use('/user', userRoute);
 
 
-app.listen(3000);
+app.listen(process.env.PORT);
