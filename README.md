@@ -31,7 +31,8 @@ Welcome to the TriwebAPI Learning repository! This repository documents my journ
   - MongoDB
   - Redis
 - **Backend Development**:
-  - NodeJS  
+  - NodeJS
+  - ExpressJS
 
 ## Projects
 - **Basic JS Project**: Demonstrates basic JavaScript functionality.
@@ -58,6 +59,7 @@ Welcome to the TriwebAPI Learning repository! This repository documents my journ
   - 📂 [**Projects**](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/Projects)
     - 📂 [BasicJsProject](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/Projects/BasicJSProject) - Created a project to demonstrate DOM manipulation.
     - 📂 [HTML-CSS-JS-Project](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/Projects/HTML-CSS-JS-Project) - Use JavaScript to create a form validation script for a user registration form.
+    - 📂 [BasicNodeJSProject](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/Projects/BasicNodeJSProject) - A basic calculator application that uses REST APIs to perform arithmetic operations.  
 
   - 📂 [**ES6**](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/ES6)
     - Contains practice files of ES6.
@@ -75,13 +77,16 @@ Welcome to the TriwebAPI Learning repository! This repository documents my journ
     - Contains practice files of Redis concepts.
        
   - 📂 [**NodeJS**](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/NodeJS)
-    - Contains practice files of Node.js. 
+    - Contains practice files of Node.js.
+  
+  - 📂 [**TypeScript**](https://github.com/MohdUmar07/TriwebAPI-Learning/tree/main/TypeScript)
+    - Contains practice files of TypeScript.  
 
 
 ## Learnings
 In this project, I gained comprehensive knowledge essential for becoming a MERN stack developer. Key topics covered include:
-- Frontend development (HTML, CSS, JavaScript)
-- Database management (MySQL, MongoDB)
+- Frontend development (HTML, CSS, JavaScript, TypeScript)
+- Database management (MySQL, MongoDB, Redis)
 - Backend development (NodeJS, ExpressJS)
 
 ## Acknowledgements
@@ -89,9 +94,9 @@ I extend my heartfelt gratitude to the TriwebAPI team for providing this invalua
 
 ## Technologies Used
 - **Version Control**: Git and GitHub
-- **Frontend**: HTML, CSS, JavaScript (ES6, ES2020)
+- **Frontend**: HTML, CSS, JavaScript (ES6, ES2020), TypeScript
 - **Backend**: Node.js, ExpressJS
-- **Database**: MySQL, MongoDB
+- **Database**: MySQL, MongoDB, Redis
 
 ## Authors
 - **Mohd Umar**
