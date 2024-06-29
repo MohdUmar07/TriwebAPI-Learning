@@ -1,5 +1,0 @@
-{
-    "env":{
-        "connectionstring":"mongodb+srv://myuser:abcd1234@mycluster.jkyhiwt.mongodb.net/reactdb?retryWrites=true&w=majority"
-    }
-}
