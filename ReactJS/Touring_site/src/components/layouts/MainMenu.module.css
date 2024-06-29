@@ -1,0 +1,45 @@
+.header {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  
+}
+
+li {
+  float: none;
+} 
+
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration:none;
+  float: left;
+ 
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #000000;
+
+}
+
+ul{
+  list-style-type: none;
+}
+
+.favouriteCount{
+  display: inline-block;
+  width: 40px;
+  height: 45px;
+  border: 1px solid red;
+  color:red;
+  text-align:center;
+  border-radius: 50%;
+  padding-top: 5px;
+  pointer-events: none;
+}
