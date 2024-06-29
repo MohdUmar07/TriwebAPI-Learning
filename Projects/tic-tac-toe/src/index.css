@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url(https://c8.alamy.com/comp/2GGD3MM/tic-tac-toe-game-texture-hand-drawn-seamless-cross-shapes-pattern-black-elements-on-white-background-2GGD3MM.jpg); 
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center; 
+  background-color: #f0f0f0; 
 }
 
 code {
@@ -12,31 +17,90 @@ code {
     monospace;
 }
 
+.game {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center; 
+  padding-top: 10%; 
+  padding-bottom: 10%; 
+}
+
+
+.game-board {
+  margin-right: 20px;
+}
+
+
 .board {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 50vh; 
+  background-color: #f0f0f0; 
+  border: 2px solid #333; 
+  border-radius: 10px; 
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
+
 
 .board-row {
   display: flex;
 }
 
-.square {
-  width: 100px;
-  height: 100px;
-  background-color: #fff;
-  border: 1px solid #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.status {
+  margin-bottom: 20px;
   font-size: 24px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  color: #333; 
 }
 
+
+.square {
+  width: 80px; 
+  height: 80px; 
+  background: #fff; 
+  border: 2px solid #999; 
+  font-size: 32px; 
+  font-weight: bold;
+  line-height: 80px; 
+  text-align: center;
+  cursor: pointer;
+  color: #333; 
+  transition: background 0.3s, border-color 0.3s; 
+}
+
+
 .square:hover {
-  background-color: #f0f0f0;
+  background: #d9d9d9; 
+  border-color: #666; 
+}
+
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.game-info ol {
+  padding-left: 20px;
+}
+
+
+.game-info button {
+  margin-bottom: 5px;
+  cursor: pointer;
+  padding: 10px 20px; 
+  font-size: 16px;
+  border: none;
+  border-radius: 5px; 
+  background-color: #007bff; 
+  color: #fff; 
+  transition: background 0.3s; 
+}
+
+
+.game-info button:hover {
+  background-color: #0056b3; 
 }
