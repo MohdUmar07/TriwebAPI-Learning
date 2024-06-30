@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Square from "./square";
-import calculateWinner from "./calculateWinner"
-
+import calculateWinner from "./calculateWinner";
+import Modal from "./modal/modal";
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
@@ -18,9 +18,12 @@ function Board({ xIsNext, squares, onPlay }) {
   }
 
   const winner = calculateWinner(squares);
+  const isDraw = !winner && squares.every(square => square !== null);
   let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
+  // if (winner) {
+  //   status = 'Winner: ' + winner;
+  if (isDraw) {
+    
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
@@ -48,9 +51,9 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
-  
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [modalMessage, setModalMessage] = useState(null);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -58,21 +61,28 @@ export default function Game() {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    
+
+    const winner = calculateWinner(nextSquares);
+    const isDraw = !winner && nextSquares.every(square => square !== null);
+    if (winner) {
+      setModalMessage(`Winner is ${winner}!`);
+    } else if (isDraw) {
+      setModalMessage('The game is a draw!');
+    }
   }
 
   function jumpTo(nextMove) {
     setCurrentMove(nextMove);
-   
+  }
+
+  function handleReset() {
+    setModalMessage(null);
+    setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
   }
 
   const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = 'Go to move #' + move;
-    } else {
-      description = 'Go to game start';
-    }
+    const description = move > 0 ? 'Go to move #' + move : 'Go to game start';
     return (
       <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
@@ -83,13 +93,19 @@ export default function Game() {
   return (
     <div className="game">
       <div className="game-content">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-      </div>
+        <div className="game-board">
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        </div>
       </div>
       <div className="game-info">
         <ol>{moves}</ol>
       </div>
+      {modalMessage && (
+        <Modal 
+          message={modalMessage} 
+          onClose={handleReset} 
+        />
+      )}
     </div>
   );
 }
