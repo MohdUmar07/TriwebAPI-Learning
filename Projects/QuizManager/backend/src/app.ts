@@ -5,7 +5,7 @@ import userRoutes from './routes/user';
 
 const app = express();
 
-const connectionString = "<MongoDB Connection String>";
+const connectionString = process.env.CONNECTION_STRING || "";
 
 app.use(express.json());
 
@@ -26,6 +26,6 @@ mongoose.connect(connectionString)
     console.log(err);
 })
 
-app.listen(3000, () => {
-    console.log("Server Conected")
+app.listen(process.env.PORT, () => {
+    console.log("Server Conected");   
 });

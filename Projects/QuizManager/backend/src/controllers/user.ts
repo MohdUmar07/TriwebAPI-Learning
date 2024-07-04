@@ -9,7 +9,7 @@ interface ReturnResponse {
     data: {}
 }
 
-const registerUser = async (req:Request, res:Response,) => {
+const registerUser = async (req:Request, res:Response) => {
     let resp : ReturnResponse;
     try {
         const user = new User(req.body)

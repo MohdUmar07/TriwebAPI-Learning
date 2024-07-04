@@ -2,3 +2,5 @@
 *.class
 
 *node_modules 
+
+nodemon.json
