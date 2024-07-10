@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express"; 
+import bcrypt from 'bcryptjs';
 
 import User from "../models/user";
 
@@ -12,7 +13,12 @@ interface ReturnResponse {
 const registerUser = async (req:Request, res:Response) => {
     let resp : ReturnResponse;
     try {
-        const user = new User(req.body)
+
+        const email = req.body.email;
+        const userName = req.body.userName;
+        const password = await bcrypt.hash(req.body.password, 12);
+
+        const user = new User({email, userName, password})
         const result = await user.save();
         if (!result) {
             resp = {status:"error", message:"No result found", data:{}};
