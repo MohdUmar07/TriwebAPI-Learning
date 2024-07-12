@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express"; 
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 import User from "../models/user";
 
@@ -33,6 +34,40 @@ const registerUser = async (req:Request, res:Response) => {
         res.status(500).send(resp);
     }
    
+}
+
+const loginUser = async(req:Request, res:Response) => {
+    let resp : ReturnResponse;
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+    
+        // find user with email
+        const user = await User.findOne({ email });
+        console.log(user);
+        if (!user) {
+            resp = {status:"error", message:"No user found", data:{}};
+            res.status(401).send(resp);             
+        } else {
+            const status = await bcrypt.compare(password, user.password)
+            if(!status) {       
+                resp = {status:"error", message:"Credentials Mismatch", data:{}};
+                res.status(401).send(resp); 
+            } else {
+                const token = jwt.sign({userId:user._id}, "thisismysecretkey", { expiresIn: '1h' })
+                resp = {status:"success", message:"LogedIn", data:{UserId:user._id, userName:user.userName, token}};
+                res.status(200).send(resp);  
+            }
+        }
+        
+        // varify user using bcryptjs
+        
+
+    } catch (error) {
+        resp = {status:"error", message:"Something Went Wrong", data:{}};
+        res.status(500).send(resp)
+    }    
+
 }
 
 const getUser = async(req:Request, res:Response) => {
@@ -77,4 +112,4 @@ const updateUser = async(req:Request, res:Response) => {
     }
 }
 
-export {registerUser, getUser, updateUser};
+export {registerUser, getUser, updateUser, loginUser};
