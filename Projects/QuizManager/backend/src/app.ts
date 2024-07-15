@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import userRoutes from './routes/user';
+import authRoutes from './routes/auth';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.get('/', (req, res)=>{
 });
 
 app.use('/user/', userRoutes)
+app.use('/auth/', authRoutes)
 
 mongoose.connect(connectionString)
 .then((res) => {
