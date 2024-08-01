@@ -1,55 +1,83 @@
-import { Request, Response, NextFunction } from "express"; 
-
+import { RequestHandler } from "express";
 import User from "../models/user";
+import { ReturnResponse } from "../utils/interfaces";
+import ProjectError from "../helper/error";
 
 
-interface ReturnResponse {
-    status: "success" | "error",
-    message: String,
-    data: {}
-}
+const getUser:RequestHandler = async (req, res, next) => {
+    // console.log("body", req.body);
+    // console.log("query",req.query);
+    // console.log("params", req.params.userId);
+    // res.send("Done!")
+    // console.log("Changes are changed");
 
 
-const getUser = async(req:Request, res:Response) => {
-    let resp:ReturnResponse
+    let resp: ReturnResponse;
+    console.log(req.userId);
+
     try {
-        // console.log("body", req.body);
         const userId = req.params.userId;
-        const user = await User.findById(userId,{userName:1, email:1});
+
+        if (req.userId != req.params.userId) {
+            const err = new ProjectError(" You are not allowed");
+            err.statusCode = 401;
+            err.data = { hi: "its error" }
+            throw err;
+        }
+
+        const user = await User.findById(userId, { name: 1, email: 1 });
         if (!user) {
-            resp = {status:"error", message:"No user found", data:{}};
-            res.send(resp)
+            const err = new ProjectError("No user Found")
+            err.statusCode = 401;
+            throw err;
         } else {
-            resp = {status:"success", message:"User found", data:user};
-            res.send(resp)
+            resp = { status: "success", message: "User found ", data: user };
+            res.status(200).send(resp)
         }
     } catch (error) {
-        // console.log(error);
-        resp = {status:"error", message:"Something went wrong", data:{}};
-        res.status(500).send(resp)
+
+        next(error);
+
     }
+
 }
 
-const updateUser = async(req:Request, res:Response) => {
-    let resp:ReturnResponse
+const updateUser:RequestHandler = async (req, res, next) => {
+
+
+    let resp: ReturnResponse;
     try {
+
+
+        if (req.userId != req.body._id) {
+            const err = new ProjectError("You are not allowed")
+            err.statusCode = 401;
+            throw err;
+        }
+
         const userId = req.body._id;
         const user = await User.findById(userId);
 
         if (!user) {
-            resp = {status:"error", message:"No user found", data:{}};
-            res.send(resp)
-        } else {
-            user.userName = req.body.userName;
-            await user.save();
-            resp = {status:"success", message:"User updated", data:user};
-            res.send(resp)
-        }} 
-        catch (error) {
-        // console.log(error);
-        resp = {status:"error", message:"Something went wrong", data:{}};
-        res.status(500).send(resp)
-    }
-}
+            const err = new ProjectError("User not found")
+            err.statusCode = 401;
+            throw err;
 
-export {getUser, updateUser};
+        } else {
+            user.name = req.body.name;
+            await user.save();
+
+            resp = { status: "success", message: "User updated", data: {} };
+            res.send(resp);
+        }
+
+    } catch (error) {
+        next(error);
+    }
+
+};
+
+
+
+
+export { getUser, updateUser };

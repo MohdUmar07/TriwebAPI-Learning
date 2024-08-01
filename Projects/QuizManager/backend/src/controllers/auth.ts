@@ -1,72 +1,95 @@
-import { Request, Response, NextFunction } from "express"; 
-import bcrypt from 'bcryptjs';
+
+// import { Request, Response, NextFunction } from "express";
+import { RequestHandler } from "express";
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
-
 import User from "../models/user";
+import { ReturnResponse } from "../utils/interfaces";
+import ProjectError from "../helper/error";
+import { validationResult } from "express-validator/lib/validation-result";
 
-interface ReturnResponse {
-    status: "success" | "error",
-    message: String,
-    data: {}
-}
 
-const registerUser = async (req:Request, res:Response) => {
-    let resp : ReturnResponse;
+const registerUser:RequestHandler = async (req, res, next ) => {
+
+
+
+    let resp: ReturnResponse;
     try {
 
-        const email = req.body.email;
-        const userName = req.body.userName;
-        const password = await bcrypt.hash(req.body.password, 12);
+        // validation
+        const validationError = validationResult(req);
+        if(!validationError.isEmpty()){
+            const err = new ProjectError("Validation failed");
+            err.statusCode = 422; 
+            err.data = validationError.array()
+            throw err;
+        }
 
-        const user = new User({email, userName, password})
+        const name = req.body.name;
+        const email = req.body.email;
+        let password = await bcrypt.hash(req.body.password, 12);
+
+
+        const user = new User({ name, email, password });
         const result = await user.save();
         if (!result) {
-            resp = {status:"error", message:"No result found", data:{}};
+            resp = { status: "error", message: "No result found", data: {} }
             res.send(resp);
         } else {
-            resp = {status:"success", message:"Registration completed!", data:{usrId:result._id}};
-            res.send(resp);
+            resp = { status: "success", message: "Registration done!", data: { userId: result._id } };
+            res.send(resp)
         }
     } catch (error) {
-        // console.log(error);
-        resp = {status:"error", message:"Something went wrong", data:{}};
-        res.status(500).send(resp);
+        next(error);
     }
-   
-}
+};
 
-const loginUser = async(req:Request, res:Response) => {
-    let resp : ReturnResponse;
+const loginUser:RequestHandler = async (req, res, next) => {
+
+    let resp: ReturnResponse;
     try {
         const email = req.body.email;
         const password = req.body.password;
-    
-        // find user with email
+
+        // find user with email -- 
         const user = await User.findOne({ email });
-        console.log(user);
         if (!user) {
-            resp = {status:"error", message:"No user found", data:{}};
-            res.status(401).send(resp);             
+            const err = new ProjectError("User not found")
+            err.statusCode = 401;
+            throw err;
         } else {
-            const status = await bcrypt.compare(password, user.password)
-            if(!status) {       
-                resp = {status:"error", message:"Credentials Mismatch", data:{}};
-                res.status(401).send(resp); 
+
+            // verfy password using bcrypt
+            const status = await bcrypt.compare(password, user.password);
+
+            // than decide0
+            if (status) {
+
+                const token = jwt.sign({ userId: user._id }, "thisismyveryveryimportantsecretkey", { expiresIn: "1h" });
+
+                resp = { status: "success", message: "Logged in", data: { token } };
+                res.send(resp);
             } else {
-                const token = jwt.sign({userId:user._id}, "thisismysecretkey", { expiresIn: '1h' })
-                resp = {status:"success", message:"LogedIn", data:{UserId:user._id, userName:user.userName, token}};
-                res.status(200).send(resp);  
+
+                const err = new ProjectError("User and password is incorrect")
+                err.statusCode = 401;
+                throw err;
             }
+
         }
-        
-        // varify user using bcryptjs
-        
 
     } catch (error) {
-        resp = {status:"error", message:"Something Went Wrong", data:{}};
-        res.status(500).send(resp)
-    }    
+        next(error);
+    }
 
 }
 
-export {registerUser, loginUser};
+const isUserExist = async (email:String)=> {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return false;
+    }
+    return true;
+       
+} 
+export { registerUser, loginUser, isUserExist};
